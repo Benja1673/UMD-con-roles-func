@@ -1,0 +1,180 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String   @id @default(cuid())
+  email          String   @unique
+  name           String?
+  hashedPassword String
+  role           String   @default("docente")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  docente        Docente?
+}
+
+model Docente {
+  id               String             @id @default(cuid())
+  nombre           String
+  apellido         String
+  rut              String             @unique
+  email            String             @unique
+  telefono         String?
+  direccion        String?
+  fechaNacimiento  DateTime?
+  especialidad     String?
+  estado           String             @default("ACTIVO")
+  nivelActual      String?
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  departamentoId   String
+  userId           String?            @unique
+  certificados     Certificado[]
+  cursosImpartidos Curso[]            @relation("DocenteInstructor")
+  departamento     Departamento       @relation(fields: [departamentoId], references: [id], onUpdate: NoAction)
+  user             User?              @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  inscripciones    InscripcionCurso[]
+
+  @@map("docentes")
+}
+
+model Departamento {
+  id        String    @id @default(cuid())
+  nombre    String    @unique
+  codigo    String?   @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  cursos    Curso[]
+  docentes  Docente[]
+
+  @@map("departamentos")
+}
+
+model Categoria {
+  id            String   @id @default(cuid())
+  nombre        String   @unique
+  descripcion   String?
+  nivel         String
+  orden         Int
+  esObligatoria Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  cursos        Curso[]
+
+  @@map("categorias")
+}
+
+model Curso {
+  id                String              @id @default(cuid())
+  nombre            String
+  descripcion       String?
+  codigo            String?             @unique
+  nivel             String
+  duracion          Int?
+  modalidad         String?
+  activo            Boolean             @default(true)
+  fechaInicio       DateTime?
+  fechaFin          DateTime?
+  cupos             Int?
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  categoriaId       String
+  departamentoId    String
+  instructorId      String?
+  tipo              String              @default("Curso")
+  ano               Int                 @default(2025)
+  prerrequisitos    CursoPrerequisito[] @relation("CursoPrincipal")
+  esPrerrequisitoDE CursoPrerequisito[] @relation("CursoPrerequisito")
+  categoria         Categoria           @relation(fields: [categoriaId], references: [id], onUpdate: NoAction)
+  departamento      Departamento        @relation(fields: [departamentoId], references: [id], onUpdate: NoAction)
+  instructor        Docente?            @relation("DocenteInstructor", fields: [instructorId], references: [id], onUpdate: NoAction)
+  inscripciones     InscripcionCurso[]
+
+  @@map("cursos")
+}
+
+model CursoPrerequisito {
+  id                   String @id @default(cuid())
+  cursoId              String
+  prerrequisitoCursoId String
+  curso                Curso  @relation("CursoPrincipal", fields: [cursoId], references: [id], onUpdate: NoAction)
+  prerrequisitoCurso   Curso  @relation("CursoPrerequisito", fields: [prerrequisitoCursoId], references: [id], onUpdate: NoAction)
+
+  @@unique([cursoId, prerrequisitoCursoId])
+  @@map("curso_prerrequisitos")
+}
+
+model InscripcionCurso {
+  id                String    @id @default(cuid())
+  estado            String    @default("NO_INSCRITO")
+  fechaInscripcion  DateTime?
+  fechaAprobacion   DateTime?
+  fechaInicio       DateTime?
+  fechaFinalizacion DateTime?
+  nota              Float?
+  observaciones     String?
+  intentos          Int       @default(0)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  docenteId         String
+  cursoId           String
+  curso             Curso     @relation(fields: [cursoId], references: [id], onUpdate: NoAction)
+  docente           Docente   @relation(fields: [docenteId], references: [id], onUpdate: NoAction)
+
+  @@unique([docenteId, cursoId])
+  @@map("inscripciones_cursos")
+}
+
+model Evaluacion {
+  id          String   @id @default(cuid())
+  titulo      String
+  descripcion String?
+  tipo        String   @default("ENCUESTA")
+  fechaInicio DateTime
+  fechaFin    DateTime
+  activa      Boolean  @default(true)
+  obligatoria Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("evaluaciones")
+}
+
+model Certificado {
+  id                 String    @id @default(cuid())
+  titulo             String
+  descripcion        String?
+  tipo               String    @default("CURSO")
+  fechaEmision       DateTime
+  fechaVencimiento   DateTime?
+  codigoVerificacion String    @unique
+  urlArchivo         String?
+  activo             Boolean   @default(true)
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  docenteId          String
+  docente            Docente   @relation(fields: [docenteId], references: [id], onUpdate: NoAction)
+
+  @@map("certificados")
+}
+
+model Capacitacion {
+  id          String   @id @default(cuid())
+  titulo      String
+  descripcion String?
+  fechaInicio DateTime
+  fechaFin    DateTime
+  modalidad   String
+  estado      String   @default("PROGRAMADA")
+  cupos       Int?
+  ubicacion   String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("capacitaciones")
+}
