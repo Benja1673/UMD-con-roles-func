@@ -59,7 +59,7 @@ model Categoria {
   id            String   @id @default(cuid())
   nombre        String   @unique
   descripcion   String?
-  nivel         String
+  nivel         String   @default("General")
   orden         Int
   esObligatoria Boolean  @default(true)
   createdAt     DateTime @default(now())
@@ -74,7 +74,7 @@ model Curso {
   nombre            String
   descripcion       String?
   codigo            String?             @unique
-  nivel             String
+  nivel             String              @default("General")
   duracion          Int?
   modalidad         String?
   activo            Boolean             @default(true)
