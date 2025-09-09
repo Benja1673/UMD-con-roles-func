@@ -482,13 +482,13 @@ export default function GraficosCursos() {
                 <li className="flex items-center">
                   <span className="w-3 h-3 bg-green-500 rounded-full mr-2"></span>
                   <span>
-                    <strong>{estadisticasCurso.aprobados}</strong> docentes han aprobado el curso
+                    <strong>{estadisticasCurso.aprobados}</strong> users han aprobado el curso
                   </span>
                 </li>
                 <li className="flex items-center">
                   <span className="w-3 h-3 bg-red-500 rounded-full mr-2"></span>
                   <span>
-                    <strong>{estadisticasCurso.noAprobados}</strong> docentes no han aprobado
+                    <strong>{estadisticasCurso.noAprobados}</strong> users no han aprobado
                   </span>
                 </li>
                 <li className="flex items-center">

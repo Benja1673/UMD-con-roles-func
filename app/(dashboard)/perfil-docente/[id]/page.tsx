@@ -17,8 +17,8 @@ import {
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
-// Tipo para los datos de docentes
-type Docente = {
+// Tipo para los datos de users
+type User = {
   id: number
   nombre: string
   apellido: string
@@ -52,7 +52,7 @@ type Curso = {
 }
 
 // Datos de ejemplo
-const docentesIniciales: Docente[] = [
+const usersIniciales: User[] = [
   {
     id: 1,
     nombre: "Juan",
@@ -120,9 +120,9 @@ const docentesIniciales: Docente[] = [
   },
 ]
 
-export default function PerfilDocente() {
+export default function PerfilUser() {
   const params = useParams()
-  const [docente, setDocente] = useState<Docente | null>(null)
+  const [user, setUser] = useState<User | null>(null)
   const [cursos, setCursos] = useState<Curso[]>([])
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [cursoActual, setCursoActual] = useState<Curso | null>(null)
@@ -134,8 +134,8 @@ export default function PerfilDocente() {
     // En un caso real, aquí haríamos una llamada a la API
     // Por ahora, simplemente buscamos en los datos de ejemplo
     const id = Number(params.id)
-    const docenteEncontrado = docentesIniciales.find((d) => d.id === id) || null
-    setDocente(docenteEncontrado)
+    const userEncontrado = usersIniciales.find((d) => d.id === id) || null
+    setUser(userEncontrado)
 
     // Datos de ejemplo para los cursos
     setCursos([
@@ -160,10 +160,10 @@ export default function PerfilDocente() {
     }
   }
 
-  if (!docente) {
+  if (!user) {
     return (
       <div className="space-y-6">
-        <BreadcrumbNav current="PERFIL DOCENTE" parent={{ label: "GESTIÓN DOCENTE", href: "/gestion-docente" }} />
+        <BreadcrumbNav current="PERFIL DOCENTE" parent={{ label: "GESTIÓN DOCENTE", href: "/gestion-user" }} />
         <div className="bg-white rounded-lg shadow p-6">
           <p>Docente no encontrado</p>
         </div>
@@ -172,22 +172,22 @@ export default function PerfilDocente() {
   }
 
   const userData = {
-    nombre: `${docente.nombre} ${docente.apellido}`,
-    rut: docente.rut,
-    carrera: docente.departamento,
-    email: docente.email,
+    nombre: `${user.nombre} ${user.apellido}`,
+    rut: user.rut,
+    carrera: user.departamento,
+    email: user.email,
     telefono: "+56 9 1234 5678",
     direccion: "Av. Ejemplo 1234, Santiago",
     fechaNacimiento: "01/01/1980",
-    especialidad: docente.especialidad,
-    estado: docente.estado,
+    especialidad: user.especialidad,
+    estado: user.estado,
   }
 
   return (
     <div className="space-y-6">
       <BreadcrumbNav
-        current={`PERFIL DE ${docente.nombre.toUpperCase()} ${docente.apellido.toUpperCase()}`}
-        parent={{ label: "GESTIÓN DOCENTE", href: "/gestion-docente" }}
+        current={`PERFIL DE ${user.nombre.toUpperCase()} ${user.apellido.toUpperCase()}`}
+        parent={{ label: "GESTIÓN DOCENTE", href: "/gestion-user" }}
       />
 
       <div className="space-y-6">
@@ -271,7 +271,7 @@ export default function PerfilDocente() {
         </div>
       </div>
 
-      {/* Tabla de cursos del docente */}
+      {/* Tabla de cursos del user */}
       <div className="bg-white rounded-lg shadow p-6 mt-6">
         <h2 className="text-xl font-bold mb-4 text-gray-800">Cursos del Docente</h2>
 
@@ -358,14 +358,14 @@ export default function PerfilDocente() {
                 <TableCell className="text-center border border-gray-200">
                   <span
                     className={`px-2 py-1 rounded text-xs font-medium ${
-                      docente.cursos?.modeloEducativo === "Aprobado"
+                      user.cursos?.modeloEducativo === "Aprobado"
                         ? "bg-green-100 text-green-800"
-                        : docente.cursos?.modeloEducativo === "No Aprobado"
+                        : user.cursos?.modeloEducativo === "No Aprobado"
                           ? "bg-red-100 text-red-800"
                           : "bg-gray-100 text-gray-800"
                     }`}
                   >
-                    {docente.cursos?.modeloEducativo || "No Inscrito"}
+                    {user.cursos?.modeloEducativo || "No Inscrito"}
                   </span>
                 </TableCell>
 
@@ -373,14 +373,14 @@ export default function PerfilDocente() {
                 <TableCell className="text-center border border-gray-200">
                   <span
                     className={`px-2 py-1 rounded text-xs font-medium ${
-                      docente.cursos?.perspectivaGenero === "Aprobado"
+                      user.cursos?.perspectivaGenero === "Aprobado"
                         ? "bg-green-100 text-green-800"
-                        : docente.cursos?.perspectivaGenero === "No Aprobado"
+                        : user.cursos?.perspectivaGenero === "No Aprobado"
                           ? "bg-red-100 text-red-800"
                           : "bg-gray-100 text-gray-800"
                     }`}
                   >
-                    {docente.cursos?.perspectivaGenero || "No Inscrito"}
+                    {user.cursos?.perspectivaGenero || "No Inscrito"}
                   </span>
                 </TableCell>
 
@@ -388,14 +388,14 @@ export default function PerfilDocente() {
                 <TableCell className="text-center border border-gray-200">
                   <span
                     className={`px-2 py-1 rounded text-xs font-medium ${
-                      docente.cursos?.neurodiversidadInclusion === "Aprobado"
+                      user.cursos?.neurodiversidadInclusion === "Aprobado"
                         ? "bg-green-100 text-green-800"
-                        : docente.cursos?.neurodiversidadInclusion === "No Aprobado"
+                        : user.cursos?.neurodiversidadInclusion === "No Aprobado"
                           ? "bg-red-100 text-red-800"
                           : "bg-gray-100 text-gray-800"
                     }`}
                   >
-                    {docente.cursos?.neurodiversidadInclusion || "No Inscrito"}
+                    {user.cursos?.neurodiversidadInclusion || "No Inscrito"}
                   </span>
                 </TableCell>
 
@@ -403,14 +403,14 @@ export default function PerfilDocente() {
                 <TableCell className="text-center border border-gray-200">
                   <span
                     className={`px-2 py-1 rounded text-xs font-medium ${
-                      docente.cursos?.metodologiasActivas === "Aprobado"
+                      user.cursos?.metodologiasActivas === "Aprobado"
                         ? "bg-green-100 text-green-800"
-                        : docente.cursos?.metodologiasActivas === "No Aprobado"
+                        : user.cursos?.metodologiasActivas === "No Aprobado"
                           ? "bg-red-100 text-red-800"
                           : "bg-gray-100 text-gray-800"
                     }`}
                   >
-                    {docente.cursos?.metodologiasActivas || "No Inscrito"}
+                    {user.cursos?.metodologiasActivas || "No Inscrito"}
                   </span>
                 </TableCell>
 
@@ -418,14 +418,14 @@ export default function PerfilDocente() {
                 <TableCell className="text-center border border-gray-200">
                   <span
                     className={`px-2 py-1 rounded text-xs font-medium ${
-                      docente.cursos?.evaluacion === "Aprobado"
+                      user.cursos?.evaluacion === "Aprobado"
                         ? "bg-green-100 text-green-800"
-                        : docente.cursos?.evaluacion === "No Aprobado"
+                        : user.cursos?.evaluacion === "No Aprobado"
                           ? "bg-red-100 text-red-800"
                           : "bg-gray-100 text-gray-800"
                     }`}
                   >
-                    {docente.cursos?.evaluacion || "No Inscrito"}
+                    {user.cursos?.evaluacion || "No Inscrito"}
                   </span>
                 </TableCell>
 
@@ -433,14 +433,14 @@ export default function PerfilDocente() {
                 <TableCell className="text-center border border-gray-200">
                   <span
                     className={`px-2 py-1 rounded text-xs font-medium ${
-                      docente.cursos?.planificacionEnsenanza === "Aprobado"
+                      user.cursos?.planificacionEnsenanza === "Aprobado"
                         ? "bg-green-100 text-green-800"
-                        : docente.cursos?.planificacionEnsenanza === "No Aprobado"
+                        : user.cursos?.planificacionEnsenanza === "No Aprobado"
                           ? "bg-red-100 text-red-800"
                           : "bg-gray-100 text-gray-800"
                     }`}
                   >
-                    {docente.cursos?.planificacionEnsenanza || "No Inscrito"}
+                    {user.cursos?.planificacionEnsenanza || "No Inscrito"}
                   </span>
                 </TableCell>
 
@@ -448,14 +448,14 @@ export default function PerfilDocente() {
                 <TableCell className="text-center border border-gray-200">
                   <span
                     className={`px-2 py-1 rounded text-xs font-medium ${
-                      docente.cursos?.dedu === "Aprobado"
+                      user.cursos?.dedu === "Aprobado"
                         ? "bg-green-100 text-green-800"
-                        : docente.cursos?.dedu === "No Aprobado"
+                        : user.cursos?.dedu === "No Aprobado"
                           ? "bg-red-100 text-red-800"
                           : "bg-gray-100 text-gray-800"
                     }`}
                   >
-                    {docente.cursos?.dedu || "No Inscrito"}
+                    {user.cursos?.dedu || "No Inscrito"}
                   </span>
                 </TableCell>
 
@@ -463,14 +463,14 @@ export default function PerfilDocente() {
                 <TableCell className="text-center border border-gray-200">
                   <span
                     className={`px-2 py-1 rounded text-xs font-medium ${
-                      docente.cursos?.didu === "Aprobado"
+                      user.cursos?.didu === "Aprobado"
                         ? "bg-green-100 text-green-800"
-                        : docente.cursos?.didu === "No Aprobado"
+                        : user.cursos?.didu === "No Aprobado"
                           ? "bg-red-100 text-red-800"
                           : "bg-gray-100 text-gray-800"
                     }`}
                   >
-                    {docente.cursos?.didu || "No Inscrito"}
+                    {user.cursos?.didu || "No Inscrito"}
                   </span>
                 </TableCell>
 
@@ -478,14 +478,14 @@ export default function PerfilDocente() {
                 <TableCell className="text-center border border-gray-200">
                   <span
                     className={`px-2 py-1 rounded text-xs font-medium ${
-                      docente.cursos?.concursosInvestigacion === "Aprobado"
+                      user.cursos?.concursosInvestigacion === "Aprobado"
                         ? "bg-green-100 text-green-800"
-                        : docente.cursos?.concursosInvestigacion === "No Aprobado"
+                        : user.cursos?.concursosInvestigacion === "No Aprobado"
                           ? "bg-red-100 text-red-800"
                           : "bg-gray-100 text-gray-800"
                     }`}
                   >
-                    {docente.cursos?.concursosInvestigacion || "No Inscrito"}
+                    {user.cursos?.concursosInvestigacion || "No Inscrito"}
                   </span>
                 </TableCell>
 
@@ -493,14 +493,14 @@ export default function PerfilDocente() {
                 <TableCell className="text-center border border-gray-200">
                   <span
                     className={`px-2 py-1 rounded text-xs font-medium ${
-                      docente.cursos?.aS === "Aprobado"
+                      user.cursos?.aS === "Aprobado"
                         ? "bg-green-100 text-green-800"
-                        : docente.cursos?.aS === "No Aprobado"
+                        : user.cursos?.aS === "No Aprobado"
                           ? "bg-red-100 text-red-800"
                           : "bg-gray-100 text-gray-800"
                     }`}
                   >
-                    {docente.cursos?.aS || "No Inscrito"}
+                    {user.cursos?.aS || "No Inscrito"}
                   </span>
                 </TableCell>
 
@@ -508,14 +508,14 @@ export default function PerfilDocente() {
                 <TableCell className="text-center border border-gray-200">
                   <span
                     className={`px-2 py-1 rounded text-xs font-medium ${
-                      docente.cursos?.stem === "Aprobado"
+                      user.cursos?.stem === "Aprobado"
                         ? "bg-green-100 text-green-800"
-                        : docente.cursos?.stem === "No Aprobado"
+                        : user.cursos?.stem === "No Aprobado"
                           ? "bg-red-100 text-red-800"
                           : "bg-gray-100 text-gray-800"
                     }`}
                   >
-                    {docente.cursos?.stem || "No Inscrito"}
+                    {user.cursos?.stem || "No Inscrito"}
                   </span>
                 </TableCell>
 
@@ -523,14 +523,14 @@ export default function PerfilDocente() {
                 <TableCell className="text-center border border-gray-200">
                   <span
                     className={`px-2 py-1 rounded text-xs font-medium ${
-                      docente.cursos?.coil === "Aprobado"
+                      user.cursos?.coil === "Aprobado"
                         ? "bg-green-100 text-green-800"
-                        : docente.cursos?.coil === "No Aprobado"
+                        : user.cursos?.coil === "No Aprobado"
                           ? "bg-red-100 text-red-800"
                           : "bg-gray-100 text-gray-800"
                     }`}
                   >
-                    {docente.cursos?.coil || "No Inscrito"}
+                    {user.cursos?.coil || "No Inscrito"}
                   </span>
                 </TableCell>
 
@@ -538,14 +538,14 @@ export default function PerfilDocente() {
                 <TableCell className="text-center border border-gray-200">
                   <span
                     className={`px-2 py-1 rounded text-xs font-medium ${
-                      docente.cursos?.didactica === "Aprobado"
+                      user.cursos?.didactica === "Aprobado"
                         ? "bg-green-100 text-green-800"
-                        : docente.cursos?.didactica === "No Aprobado"
+                        : user.cursos?.didactica === "No Aprobado"
                           ? "bg-red-100 text-red-800"
                           : "bg-gray-100 text-gray-800"
                     }`}
                   >
-                    {docente.cursos?.didactica || "No Inscrito"}
+                    {user.cursos?.didactica || "No Inscrito"}
                   </span>
                 </TableCell>
 
@@ -553,22 +553,22 @@ export default function PerfilDocente() {
                 <TableCell className="text-center border border-gray-200">
                   {(() => {
                     // Verificar nivel Inicial (al menos un curso aprobado en cada categoría)
-                    const tieneNivelInicial = docente.cursos?.modeloEducativo === "Aprobado"
+                    const tieneNivelInicial = user.cursos?.modeloEducativo === "Aprobado"
 
                     // Verificar nivel Intermedio (al menos un curso aprobado en cada categoría)
                     const tieneAmbientesPropicios =
-                      docente.cursos?.perspectivaGenero === "Aprobado" ||
-                      docente.cursos?.neurodiversidadInclusion === "Aprobado"
+                      user.cursos?.perspectivaGenero === "Aprobado" ||
+                      user.cursos?.neurodiversidadInclusion === "Aprobado"
 
                     const tieneEnsenanzaAula =
-                      docente.cursos?.metodologiasActivas === "Aprobado" || docente.cursos?.evaluacion === "Aprobado"
+                      user.cursos?.metodologiasActivas === "Aprobado" || user.cursos?.evaluacion === "Aprobado"
 
-                    const tienePlanificacion = docente.cursos?.planificacionEnsenanza === "Aprobado"
+                    const tienePlanificacion = user.cursos?.planificacionEnsenanza === "Aprobado"
 
                     const tieneReflexion =
-                      docente.cursos?.dedu === "Aprobado" ||
-                      docente.cursos?.didu === "Aprobado" ||
-                      docente.cursos?.concursosInvestigacion === "Aprobado"
+                      user.cursos?.dedu === "Aprobado" ||
+                      user.cursos?.didu === "Aprobado" ||
+                      user.cursos?.concursosInvestigacion === "Aprobado"
 
                     const tieneNivelIntermedio =
                       tieneNivelInicial &&
@@ -579,11 +579,11 @@ export default function PerfilDocente() {
 
                     // Verificar nivel Avanzado (al menos un curso aprobado en cada categoría)
                     const tieneMetodologiasVinculadas =
-                      docente.cursos?.aS === "Aprobado" ||
-                      docente.cursos?.stem === "Aprobado" ||
-                      docente.cursos?.coil === "Aprobado"
+                      user.cursos?.aS === "Aprobado" ||
+                      user.cursos?.stem === "Aprobado" ||
+                      user.cursos?.coil === "Aprobado"
 
-                    const tieneDidactica = docente.cursos?.didactica === "Aprobado"
+                    const tieneDidactica = user.cursos?.didactica === "Aprobado"
 
                     const tieneNivelAvanzado = tieneNivelIntermedio && tieneMetodologiasVinculadas && tieneDidactica
 

@@ -30,6 +30,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "types/**/*.d.ts"
-  ],
+, "app/api/auth/forgot-password.ts"  ],
   "exclude": ["node_modules"]
 }

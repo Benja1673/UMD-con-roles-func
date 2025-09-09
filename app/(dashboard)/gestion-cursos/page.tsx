@@ -27,7 +27,7 @@ type Curso = {
   nivel: "Inicial" | "Intermedio" | "Avanzado"
   categoria: string
   curso: string
-  docente: string
+  user: string
   rut: string
   correo: string
   departamento: string
@@ -36,34 +36,24 @@ type Curso = {
 
 // Actualiza los datos de ejemplo para incluir nivel y categoría
 const cursosIniciales: Curso[] = [
-  {
-    id: 1,
-    nivel: "Inicial",
-    categoria: "Modelo Educativo",
-    curso: "Curso Modelo Educativo",
-    docente: "Juan Pérez",
-    rut: "12.345.678-9",
-    correo: "juan.perez@utem.cl",
-    departamento: "Informática",
-    estado: "Aprobado",
-  },
+
   {
     id: 2,
     nivel: "Intermedio",
     categoria: "Ambientes Propicios para el Aprendizaje",
     curso: "Perspectiva de Género",
-    docente: "María González",
+    user: "María González",
     rut: "11.222.333-4",
     correo: "maria.gonzalez@utem.cl",
     departamento: "Matemáticas",
-    estado: "En proceso",
+    estado: "Aprobado",
   },
   {
     id: 3,
     nivel: "Intermedio",
     categoria: "Ambientes Propicios para el Aprendizaje",
     curso: "Neurodiversidad e Inclusión",
-    docente: "Carlos Rodríguez",
+    user: "Carlos Rodríguez",
     rut: "10.111.222-3",
     correo: "carlos.rodriguez@utem.cl",
     departamento: "Física",
@@ -74,7 +64,7 @@ const cursosIniciales: Curso[] = [
     nivel: "Intermedio",
     categoria: "Enseñanza en Aula Centrada en el Estudiantado",
     curso: "Metodologías Activas",
-    docente: "Ana Martínez",
+    user: "Ana Martínez",
     rut: "9.888.777-6",
     correo: "ana.martinez@utem.cl",
     departamento: "Informática",
@@ -85,7 +75,7 @@ const cursosIniciales: Curso[] = [
     nivel: "Intermedio",
     categoria: "Enseñanza en Aula Centrada en el Estudiantado",
     curso: "Evaluación",
-    docente: "Pedro Sánchez",
+    user: "Pedro Sánchez",
     rut: "8.777.666-5",
     correo: "pedro.sanchez@utem.cl",
     departamento: "Matemáticas",
@@ -96,7 +86,7 @@ const cursosIniciales: Curso[] = [
     nivel: "Intermedio",
     categoria: "Planificación de la Enseñanza",
     curso: "Planificación de la Enseñanza",
-    docente: "Laura Torres",
+    user: "Laura Torres",
     rut: "7.666.555-4",
     correo: "laura.torres@utem.cl",
     departamento: "Educación",
@@ -105,9 +95,9 @@ const cursosIniciales: Curso[] = [
   {
     id: 7,
     nivel: "Intermedio",
-    categoria: "Reflexión sobre la Práctica Docente",
+    categoria: "Reflexión sobre la Práctica user",
     curso: "DEDU",
-    docente: "Roberto Gómez",
+    user: "Roberto Gómez",
     rut: "6.555.444-3",
     correo: "roberto.gomez@utem.cl",
     departamento: "Educación",
@@ -116,9 +106,9 @@ const cursosIniciales: Curso[] = [
   {
     id: 8,
     nivel: "Intermedio",
-    categoria: "Reflexión sobre la Práctica Docente",
+    categoria: "Reflexión sobre la Práctica user",
     curso: "DIDU",
-    docente: "Carmen Vega",
+    user: "Carmen Vega",
     rut: "5.444.333-2",
     correo: "carmen.vega@utem.cl",
     departamento: "Humanidades",
@@ -127,9 +117,9 @@ const cursosIniciales: Curso[] = [
   {
     id: 9,
     nivel: "Intermedio",
-    categoria: "Reflexión sobre la Práctica Docente",
+    categoria: "Reflexión sobre la Práctica user",
     curso: "Concursos Investigación y/o Innovación",
-    docente: "Javier Morales",
+    user: "Javier Morales",
     rut: "4.333.222-1",
     correo: "javier.morales@utem.cl",
     departamento: "Investigación",
@@ -140,7 +130,7 @@ const cursosIniciales: Curso[] = [
     nivel: "Avanzado",
     categoria: "Metodologías Vinculadas con el Entorno",
     curso: "A+S",
-    docente: "Sofía Ramírez",
+    user: "Sofía Ramírez",
     rut: "3.222.111-0",
     correo: "sofia.ramirez@utem.cl",
     departamento: "Ciencias Sociales",
@@ -151,7 +141,7 @@ const cursosIniciales: Curso[] = [
     nivel: "Avanzado",
     categoria: "Metodologías Vinculadas con el Entorno",
     curso: "STEM",
-    docente: "Diego Vargas",
+    user: "Diego Vargas",
     rut: "2.111.000-K",
     correo: "diego.vargas@utem.cl",
     departamento: "Ingeniería",
@@ -162,7 +152,7 @@ const cursosIniciales: Curso[] = [
     nivel: "Avanzado",
     categoria: "Metodologías Vinculadas con el Entorno",
     curso: "COIL",
-    docente: "Valentina Muñoz",
+    user: "Valentina Muñoz",
     rut: "1.000.999-9",
     correo: "valentina.munoz@utem.cl",
     departamento: "Relaciones Internacionales",
@@ -173,7 +163,7 @@ const cursosIniciales: Curso[] = [
     nivel: "Avanzado",
     categoria: "Didáctica",
     curso: "Didáctica",
-    docente: "Andrés Pizarro",
+    user: "Andrés Pizarro",
     rut: "15.888.777-8",
     correo: "andres.pizarro@utem.cl",
     departamento: "Educación",
@@ -199,7 +189,7 @@ export default function GestionCursos() {
     nivel: "Inicial" as "Inicial" | "Intermedio" | "Avanzado",
     categoria: "",
     curso: "",
-    docente: "",
+    user: "",
     rut: "",
     correo: "",
     departamento: "",
@@ -247,7 +237,7 @@ export default function GestionCursos() {
       resultado = resultado.filter(
         (curso) =>
           curso.curso.toLowerCase().includes(busquedaLower) ||
-          curso.docente.toLowerCase().includes(busquedaLower) ||
+          curso.user.toLowerCase().includes(busquedaLower) ||
           curso.rut.toLowerCase().includes(busquedaLower) ||
           curso.correo.toLowerCase().includes(busquedaLower) ||
           curso.nivel.toLowerCase().includes(busquedaLower) ||
@@ -283,8 +273,8 @@ export default function GestionCursos() {
             case "curso":
               if (!valores.includes(curso.curso)) return false
               break
-            case "docente":
-              if (!valores.includes(curso.docente)) return false
+            case "user":
+              if (!valores.includes(curso.user)) return false
               break
             case "rut":
               if (!valores.includes(curso.rut)) return false
@@ -338,11 +328,11 @@ export default function GestionCursos() {
       nivel: "Inicial",
       categoria: "",
       curso: "",
-      docente: "",
+      user: "",
       rut: "",
       correo: "",
       departamento: "",
-      estado: "En proceso",
+       estado: "Aprobado",
     })
     setIsDialogOpen(true)
   }
@@ -354,7 +344,7 @@ export default function GestionCursos() {
       nivel: curso.nivel,
       categoria: curso.categoria,
       curso: curso.curso,
-      docente: curso.docente,
+      user: curso.user,
       rut: curso.rut,
       correo: curso.correo,
       departamento: curso.departamento,
@@ -410,7 +400,7 @@ export default function GestionCursos() {
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
             <Input
-              placeholder="Buscar por curso, docente, RUT o correo..."
+              placeholder="Buscar por curso, user, RUT o correo..."
               className="pl-10"
               value={busqueda}
               onChange={(e) => setBusqueda(e.target.value)}
@@ -501,7 +491,7 @@ export default function GestionCursos() {
                   <ChevronDown className="h-4 w-4 inline ml-1" />
                   {tieneFiltroPorColumna("curso") && <Filter className="h-3 w-3 inline ml-1" />}
                 </TableHead>
-                <TableHead className="border border-gray-300">Docente</TableHead>
+                <TableHead className="border border-gray-300">User</TableHead>
                 <TableHead className="border border-gray-300">RUT</TableHead>
                 <TableHead className="border border-gray-300">Correo</TableHead>
                 <TableHead
@@ -531,7 +521,7 @@ export default function GestionCursos() {
                     <TableCell className="border border-gray-200">{curso.nivel}</TableCell>
                     <TableCell className="border border-gray-200">{curso.categoria}</TableCell>
                     <TableCell className="border border-gray-200">{curso.curso}</TableCell>
-                    <TableCell className="border border-gray-200">{curso.docente}</TableCell>
+                    <TableCell className="border border-gray-200">{curso.user}</TableCell>
                     <TableCell className="border border-gray-200">{curso.rut}</TableCell>
                     <TableCell className="border border-gray-200">{curso.correo}</TableCell>
                     <TableCell className="border border-gray-200">{curso.departamento}</TableCell>
@@ -707,8 +697,8 @@ export default function GestionCursos() {
               <Input id="curso" name="curso" value={formData.curso} onChange={handleFormChange} />
             </div>
             <div className="flex flex-col gap-2">
-              <Label htmlFor="docente">Docente</Label>
-              <Input id="docente" name="docente" value={formData.docente} onChange={handleFormChange} />
+              <Label htmlFor="user">User</Label>
+              <Input id="user" name="user" value={formData.user} onChange={handleFormChange} />
             </div>
             <div className="flex flex-col gap-2">
               <Label htmlFor="rut">RUT</Label>

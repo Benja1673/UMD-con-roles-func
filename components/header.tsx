@@ -11,7 +11,7 @@ interface UserData {
   id: string;
   email: string;
   role: string;
-  docente?: {
+  user?: {
     id: string;
     nombre: string;
     apellido: string;
@@ -101,13 +101,13 @@ export default function Header() {
                   {getRoleDisplayName(userData?.role || "")}
                 </div>
                 <div className="text-gray-600 text-xs font-medium">
-                  {userData?.docente
-                    ? `${userData.docente.nombre.toUpperCase()} ${userData.docente.apellido.toUpperCase()}`
+                  {userData?.user
+                    ? `${userData.user.nombre.toUpperCase()} ${userData.user.apellido.toUpperCase()}`
                     : userData?.email?.toUpperCase() || "USUARIO"}
                 </div>
-                {userData?.docente && (
+                {userData?.user && (
                   <div className="text-gray-500 text-xs">
-                    Nivel: {userData.docente.nivelActual} | {userData.docente.departamento?.codigo}
+                    Nivel: {userData.user.nivelActual} | {userData.user.departamento?.codigo}
                   </div>
                 )}
               </div>

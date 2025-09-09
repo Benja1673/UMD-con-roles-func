@@ -22,8 +22,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 
-// Update the Docente type to include course completion information
-type Docente = {
+// Update the User type to include course completion information
+type User = {
   id: number
   nombre: string
   apellido: string
@@ -63,7 +63,7 @@ type Docente = {
 }
 
 // Update the initial data to include course information
-const docentesIniciales: Docente[] = [
+const usersIniciales: User[] = [
   {
     id: 1,
     nombre: "Juan",
@@ -191,9 +191,9 @@ const docentesIniciales: Docente[] = [
   },
 ]
 
-export default function GestionDocente() {
-  const [docentes, setDocentes] = useState<Docente[]>(docentesIniciales)
-  const [docentesFiltrados, setDocentesFiltrados] = useState<Docente[]>(docentesIniciales)
+export default function GestionUser() {
+  const [users, setUsers] = useState<User[]>(usersIniciales)
+  const [usersFiltrados, setUsersFiltrados] = useState<User[]>(usersIniciales)
   const [busqueda, setBusqueda] = useState("")
   const [filtroDepto, setFiltroDepto] = useState<string>("todos")
   const [filtroEstado, setFiltroEstado] = useState<string>("todos")
@@ -204,7 +204,7 @@ export default function GestionDocente() {
   const [cabecerasFijadas, setCabecerasFijadas] = useState(false)
 
   // Estado para el formulario
-  const [docenteActual, setDocenteActual] = useState<Docente | null>(null)
+  const [userActual, setUserActual] = useState<User | null>(null)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
 
@@ -256,9 +256,9 @@ export default function GestionDocente() {
     }
   }
 
-  // Abrir diálogo para crear nuevo docente
-  const handleNuevoDocente = () => {
-    setDocenteActual(null)
+  // Abrir diálogo para crear nuevo User
+  const handleNuevoUser = () => {
+    setUserActual(null)
     setFormData({
       nombre: "",
       apellido: "",
@@ -286,64 +286,64 @@ export default function GestionDocente() {
     setIsDialogOpen(true)
   }
 
-  // Update the handleEditarDocente function
-  const handleEditarDocente = (docente: Docente) => {
-    setDocenteActual(docente)
+  // Update the handleEditarUser function
+  const handleEditarUser = (user: User) => {
+    setUserActual(user)
     setFormData({
-      nombre: docente.nombre,
-      apellido: docente.apellido,
-      rut: docente.rut,
-      email: docente.email,
-      departamento: docente.departamento,
-      especialidad: docente.especialidad,
-      estado: docente.estado,
-      cursos: { ...docente.cursos },
+      nombre: user.nombre,
+      apellido: user.apellido,
+      rut: user.rut,
+      email: user.email,
+      departamento: user.departamento,
+      especialidad: user.especialidad,
+      estado: user.estado,
+      cursos: { ...user.cursos },
     })
     setIsDialogOpen(true)
   }
 
-  // Abrir diálogo para eliminar docente
-  const handleEliminarDialogo = (docente: Docente) => {
-    setDocenteActual(docente)
+  // Abrir diálogo para eliminar user
+  const handleEliminarDialogo = (user: User) => {
+    setUserActual(user)
     setIsDeleteDialogOpen(true)
   }
 
-  // Eliminar docente
-  const handleEliminarDocente = () => {
-    if (docenteActual) {
-      setDocentes(docentes.filter((d) => d.id !== docenteActual.id))
+  // Eliminar user
+  const handleEliminarUser = () => {
+    if (userActual) {
+      setUsers(users.filter((d) => d.id !== userActual.id))
       setIsDeleteDialogOpen(false)
     }
   }
 
-  // Guardar docente (nuevo o editado)
-  const handleGuardarDocente = () => {
-    if (docenteActual) {
-      // Editar docente existente
-      setDocentes(docentes.map((d) => (d.id === docenteActual.id ? { ...formData, id: docenteActual.id } : d)))
+  // Guardar user (nuevo o editado)
+  const handleGuardarUser = () => {
+    if (userActual) {
+      // Editar user existente
+      setUsers(users.map((d) => (d.id === userActual.id ? { ...formData, id: userActual.id } : d)))
     } else {
-      // Crear nuevo docente
-      const nuevoId = Math.max(...docentes.map((d) => d.id)) + 1
-      setDocentes([...docentes, { ...formData, id: nuevoId }])
+      // Crear nuevo user
+      const nuevoId = Math.max(...users.map((d) => d.id)) + 1
+      setUsers([...users, { ...formData, id: nuevoId }])
     }
     setIsDialogOpen(false)
   }
 
   const handleGuardarCurso = () => {
-    if (docenteActual) {
-      // Editar docente existente
-      setDocentes(docentes.map((d) => (d.id === docenteActual.id ? { ...d, ...formData } : d)))
+    if (userActual) {
+      // Editar user existente
+      setUsers(users.map((d) => (d.id === userActual.id ? { ...d, ...formData } : d)))
     } else {
-      // Crear nuevo docente
-      const nuevoId = Math.max(...docentes.map((d) => d.id)) + 1
-      setDocentes([...docentes, { ...formData, id: nuevoId }])
+      // Crear nuevo user
+      const nuevoId = Math.max(...users.map((d) => d.id)) + 1
+      setUsers([...users, { ...formData, id: nuevoId }])
     }
     setIsDialogOpen(false)
   }
 
   const handleEliminarCurso = () => {
-    if (docenteActual) {
-      setDocentes(docentes.filter((d) => d.id !== docenteActual.id))
+    if (userActual) {
+      setUsers(users.filter((d) => d.id !== userActual.id))
       setIsDeleteDialogOpen(false)
     }
   }
@@ -368,14 +368,14 @@ export default function GestionDocente() {
   }
 
   // Obtener departamentos únicos para el filtro
-  const departamentos = Array.from(new Set(docentes.map((d) => d.departamento)))
+  const departamentos = Array.from(new Set(users.map((d) => d.departamento)))
 
-  const aplicarFiltros = (docentes: Docente[]) => {
+  const aplicarFiltros = (users: User[]) => {
     if (Object.keys(filtrosColumna).length === 0) {
-      return docentes
+      return users
     }
 
-    return docentes.filter((docente) => {
+    return users.filter((user) => {
       // Verificar cada filtro activo
       for (const [columna, valores] of Object.entries(filtrosColumna)) {
         if (valores.length === 0) continue
@@ -383,86 +383,86 @@ export default function GestionDocente() {
         // Filtrar según la columna
         switch (columna) {
           case "nombre":
-            const nombreCompleto = `${docente.nombre} ${docente.apellido}`
+            const nombreCompleto = `${user.nombre} ${user.apellido}`
             if (!valores.some((valor) => nombreCompleto.includes(valor))) return false
             break
           case "rut":
-            if (!valores.includes(docente.rut)) return false
+            if (!valores.includes(user.rut)) return false
             break
           case "email":
-            if (!valores.includes(docente.email)) return false
+            if (!valores.includes(user.email)) return false
             break
           case "departamento":
-            if (!valores.includes(docente.departamento)) return false
+            if (!valores.includes(user.departamento)) return false
             break
           case "estado":
-            if (!valores.includes(docente.estado)) return false
+            if (!valores.includes(user.estado)) return false
             break
           case "modeloEducativo":
-            if (!valores.includes(docente.cursos.modeloEducativo)) return false
+            if (!valores.includes(user.cursos.modeloEducativo)) return false
             break
           case "perspectivaGenero":
-            if (!valores.includes(docente.cursos.perspectivaGenero)) return false
+            if (!valores.includes(user.cursos.perspectivaGenero)) return false
             break
           case "neurodiversidadInclusion":
-            if (!valores.includes(docente.cursos.neurodiversidadInclusion)) return false
+            if (!valores.includes(user.cursos.neurodiversidadInclusion)) return false
             break
           case "metodologiasActivas":
-            if (!valores.includes(docente.cursos.metodologiasActivas)) return false
+            if (!valores.includes(user.cursos.metodologiasActivas)) return false
             break
           case "evaluacion":
-            if (!valores.includes(docente.cursos.evaluacion)) return false
+            if (!valores.includes(user.cursos.evaluacion)) return false
             break
           case "planificacionEnsenanza":
-            if (!valores.includes(docente.cursos.planificacionEnsenanza)) return false
+            if (!valores.includes(user.cursos.planificacionEnsenanza)) return false
             break
           case "dedu":
-            if (!valores.includes(docente.cursos.dedu)) return false
+            if (!valores.includes(user.cursos.dedu)) return false
             break
           case "didu":
-            if (!valores.includes(docente.cursos.didu)) return false
+            if (!valores.includes(user.cursos.didu)) return false
             break
           case "concursosInvestigacion":
-            if (!valores.includes(docente.cursos.concursosInvestigacion)) return false
+            if (!valores.includes(user.cursos.concursosInvestigacion)) return false
             break
           case "aS":
-            if (!valores.includes(docente.cursos.aS)) return false
+            if (!valores.includes(user.cursos.aS)) return false
             break
           case "stem":
-            if (!valores.includes(docente.cursos.stem)) return false
+            if (!valores.includes(user.cursos.stem)) return false
             break
           case "coil":
-            if (!valores.includes(docente.cursos.coil)) return false
+            if (!valores.includes(user.cursos.coil)) return false
             break
           case "didactica":
-            if (!valores.includes(docente.cursos.didactica)) return false
+            if (!valores.includes(user.cursos.didactica)) return false
             break
           case "nivel":
-            // Determinar el nivel del docente
-            const tieneNivelInicial = docente.cursos.modeloEducativo === "Aprobado"
+            // Determinar el nivel del user
+            const tieneNivelInicial = user.cursos.modeloEducativo === "Aprobado"
 
             const tieneAmbientesPropicios =
-              docente.cursos.perspectivaGenero === "Aprobado" || docente.cursos.neurodiversidadInclusion === "Aprobado"
+              user.cursos.perspectivaGenero === "Aprobado" || user.cursos.neurodiversidadInclusion === "Aprobado"
 
             const tieneEnsenanzaAula =
-              docente.cursos.metodologiasActivas === "Aprobado" || docente.cursos.evaluacion === "Aprobado"
+              user.cursos.metodologiasActivas === "Aprobado" || user.cursos.evaluacion === "Aprobado"
 
-            const tienePlanificacion = docente.cursos.planificacionEnsenanza === "Aprobado"
+            const tienePlanificacion = user.cursos.planificacionEnsenanza === "Aprobado"
 
             const tieneReflexion =
-              docente.cursos.dedu === "Aprobado" ||
-              docente.cursos.didu === "Aprobado" ||
-              docente.cursos.concursosInvestigacion === "Aprobado"
+              user.cursos.dedu === "Aprobado" ||
+              user.cursos.didu === "Aprobado" ||
+              user.cursos.concursosInvestigacion === "Aprobado"
 
             const tieneNivelIntermedio =
               tieneNivelInicial && tieneAmbientesPropicios && tieneEnsenanzaAula && tienePlanificacion && tieneReflexion
 
             const tieneMetodologiasVinculadas =
-              docente.cursos.aS === "Aprobado" ||
-              docente.cursos.stem === "Aprobado" ||
-              docente.cursos.coil === "Aprobado"
+              user.cursos.aS === "Aprobado" ||
+              user.cursos.stem === "Aprobado" ||
+              user.cursos.coil === "Aprobado"
 
-            const tieneDidactica = docente.cursos.didactica === "Aprobado"
+            const tieneDidactica = user.cursos.didactica === "Aprobado"
 
             const tieneNivelAvanzado = tieneNivelIntermedio && tieneMetodologiasVinculadas && tieneDidactica
 
@@ -487,34 +487,34 @@ export default function GestionDocente() {
 
   // Replace the table rendering with this updated version that includes course information
   useEffect(() => {
-    let resultado = [...docentes]
+    let resultado = [...users]
 
     // Aplicar filtro de búsqueda
     if (busqueda) {
       const busquedaLower = busqueda.toLowerCase()
       resultado = resultado.filter(
-        (docente) =>
-          `${docente.nombre} ${docente.apellido}`.toLowerCase().includes(busquedaLower) ||
-          docente.rut.toLowerCase().includes(busquedaLower) ||
-          docente.email.toLowerCase().includes(busquedaLower),
+        (user) =>
+          `${user.nombre} ${user.apellido}`.toLowerCase().includes(busquedaLower) ||
+          user.rut.toLowerCase().includes(busquedaLower) ||
+          user.email.toLowerCase().includes(busquedaLower),
       )
     }
 
     // Aplicar filtro de departamento
     if (filtroDepto !== "todos") {
-      resultado = resultado.filter((docente) => docente.departamento === filtroDepto)
+      resultado = resultado.filter((user) => user.departamento === filtroDepto)
     }
 
     // Aplicar filtro de estado
     if (filtroEstado !== "todos") {
-      resultado = resultado.filter((docente) => docente.estado === filtroEstado)
+      resultado = resultado.filter((user) => user.estado === filtroEstado)
     }
 
     // Aplicar filtros de columna
     resultado = aplicarFiltros(resultado)
 
-    setDocentesFiltrados(resultado)
-  }, [docentes, busqueda, filtroDepto, filtroEstado, filtrosColumna])
+    setUsersFiltrados(resultado)
+  }, [users, busqueda, filtroDepto, filtroEstado, filtrosColumna])
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -546,9 +546,9 @@ export default function GestionDocente() {
 
       <div className="bg-white rounded-lg shadow p-6">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold text-gray-800">Gestión Docente</h1>
-          <Button onClick={handleNuevoDocente} className="bg-blue-600 hover:bg-blue-700">
-            <Plus className="mr-2 h-4 w-4" /> Nuevo Docente
+          <h1 className="text-2xl font-bold text-gray-800">Gestión User</h1>
+          <Button onClick={handleNuevoUser} className="bg-blue-600 hover:bg-blue-700">
+            <Plus className="mr-2 h-4 w-4" /> Nuevo User
           </Button>
         </div>
 
@@ -602,7 +602,7 @@ export default function GestionDocente() {
           </div>
         </div>
 
-        {/* Tabla de docentes con cursos */}
+        {/* Tabla de users con cursos */}
         <div className={`border rounded-md ${cabecerasFijadas ? "max-h-[70vh] overflow-y-auto" : "overflow-x-auto"}`}>
           <Table>
             <TableHeader className={cabecerasFijadas ? "sticky top-0 bg-white z-10" : ""}>
@@ -843,16 +843,16 @@ export default function GestionDocente() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {docentesFiltrados.length > 0 ? (
-                docentesFiltrados.map((docente) => (
-                  <TableRow key={docente.id}>
-                    <TableCell className="border border-gray-200">{`${docente.nombre} ${docente.apellido}`}</TableCell>
-                    <TableCell className="border border-gray-200">{docente.rut}</TableCell>
-                    <TableCell className="border border-gray-200">{docente.email}</TableCell>
-                    <TableCell className="border border-gray-200">{docente.departamento}</TableCell>
+              {usersFiltrados.length > 0 ? (
+                usersFiltrados.map((user) => (
+                  <TableRow key={user.id}>
+                    <TableCell className="border border-gray-200">{`${user.nombre} ${user.apellido}`}</TableCell>
+                    <TableCell className="border border-gray-200">{user.rut}</TableCell>
+                    <TableCell className="border border-gray-200">{user.email}</TableCell>
+                    <TableCell className="border border-gray-200">{user.departamento}</TableCell>
                     <TableCell className="border border-gray-200 text-center">
                       <Link
-                        href={`/perfil-docente/${docente.id}`}
+                        href={`/perfil-user/${user.id}`}
                         className="text-blue-600 hover:text-blue-800 underline"
                       >
                         Ver perfil
@@ -863,14 +863,14 @@ export default function GestionDocente() {
                     <TableCell className="border border-gray-200 text-center">
                       <span
                         className={`px-2 py-1 rounded text-xs font-medium ${
-                          docente.cursos.modeloEducativo === "Aprobado"
+                          user.cursos.modeloEducativo === "Aprobado"
                             ? "bg-green-100 text-green-800"
-                            : docente.cursos.modeloEducativo === "No Aprobado"
+                            : user.cursos.modeloEducativo === "No Aprobado"
                               ? "bg-red-100 text-red-800"
                               : "bg-gray-100 text-gray-800"
                         }`}
                       >
-                        {docente.cursos.modeloEducativo}
+                        {user.cursos.modeloEducativo}
                       </span>
                     </TableCell>
 
@@ -878,27 +878,27 @@ export default function GestionDocente() {
                     <TableCell className="border border-gray-200 text-center">
                       <span
                         className={`px-2 py-1 rounded text-xs font-medium ${
-                          docente.cursos.perspectivaGenero === "Aprobado"
+                          user.cursos.perspectivaGenero === "Aprobado"
                             ? "bg-green-100 text-green-800"
-                            : docente.cursos.perspectivaGenero === "No Aprobado"
+                            : user.cursos.perspectivaGenero === "No Aprobado"
                               ? "bg-red-100 text-red-800"
                               : "bg-gray-100 text-gray-800"
                         }`}
                       >
-                        {docente.cursos.perspectivaGenero}
+                        {user.cursos.perspectivaGenero}
                       </span>
                     </TableCell>
                     <TableCell className="border border-gray-200 text-center">
                       <span
                         className={`px-2 py-1 rounded text-xs font-medium ${
-                          docente.cursos.neurodiversidadInclusion === "Aprobado"
+                          user.cursos.neurodiversidadInclusion === "Aprobado"
                             ? "bg-green-100 text-green-800"
-                            : docente.cursos.neurodiversidadInclusion === "No Aprobado"
+                            : user.cursos.neurodiversidadInclusion === "No Aprobado"
                               ? "bg-red-100 text-red-800"
                               : "bg-gray-100 text-gray-800"
                         }`}
                       >
-                        {docente.cursos.neurodiversidadInclusion}
+                        {user.cursos.neurodiversidadInclusion}
                       </span>
                     </TableCell>
 
@@ -906,27 +906,27 @@ export default function GestionDocente() {
                     <TableCell className="border border-gray-200 text-center">
                       <span
                         className={`px-2 py-1 rounded text-xs font-medium ${
-                          docente.cursos.metodologiasActivas === "Aprobado"
+                          user.cursos.metodologiasActivas === "Aprobado"
                             ? "bg-green-100 text-green-800"
-                            : docente.cursos.metodologiasActivas === "No Aprobado"
+                            : user.cursos.metodologiasActivas === "No Aprobado"
                               ? "bg-red-100 text-red-800"
                               : "bg-gray-100 text-gray-800"
                         }`}
                       >
-                        {docente.cursos.metodologiasActivas}
+                        {user.cursos.metodologiasActivas}
                       </span>
                     </TableCell>
                     <TableCell className="border border-gray-200 text-center">
                       <span
                         className={`px-2 py-1 rounded text-xs font-medium ${
-                          docente.cursos.evaluacion === "Aprobado"
+                          user.cursos.evaluacion === "Aprobado"
                             ? "bg-green-100 text-green-800"
-                            : docente.cursos.evaluacion === "No Aprobado"
+                            : user.cursos.evaluacion === "No Aprobado"
                               ? "bg-red-100 text-red-800"
                               : "bg-gray-100 text-gray-800"
                         }`}
                       >
-                        {docente.cursos.evaluacion}
+                        {user.cursos.evaluacion}
                       </span>
                     </TableCell>
 
@@ -934,14 +934,14 @@ export default function GestionDocente() {
                     <TableCell className="border border-gray-200 text-center">
                       <span
                         className={`px-2 py-1 rounded text-xs font-medium ${
-                          docente.cursos.planificacionEnsenanza === "Aprobado"
+                          user.cursos.planificacionEnsenanza === "Aprobado"
                             ? "bg-green-100 text-green-800"
-                            : docente.cursos.planificacionEnsenanza === "No Aprobado"
+                            : user.cursos.planificacionEnsenanza === "No Aprobado"
                               ? "bg-red-100 text-red-800"
                               : "bg-gray-100 text-gray-800"
                         }`}
                       >
-                        {docente.cursos.planificacionEnsenanza}
+                        {user.cursos.planificacionEnsenanza}
                       </span>
                     </TableCell>
 
@@ -949,40 +949,40 @@ export default function GestionDocente() {
                     <TableCell className="border border-gray-200 text-center">
                       <span
                         className={`px-2 py-1 rounded text-xs font-medium ${
-                          docente.cursos.dedu === "Aprobado"
+                          user.cursos.dedu === "Aprobado"
                             ? "bg-green-100 text-green-800"
-                            : docente.cursos.dedu === "No Aprobado"
+                            : user.cursos.dedu === "No Aprobado"
                               ? "bg-red-100 text-red-800"
                               : "bg-gray-100 text-gray-800"
                         }`}
                       >
-                        {docente.cursos.dedu}
+                        {user.cursos.dedu}
                       </span>
                     </TableCell>
                     <TableCell className="border border-gray-200 text-center">
                       <span
                         className={`px-2 py-1 rounded text-xs font-medium ${
-                          docente.cursos.didu === "Aprobado"
+                          user.cursos.didu === "Aprobado"
                             ? "bg-green-100 text-green-800"
-                            : docente.cursos.didu === "No Aprobado"
+                            : user.cursos.didu === "No Aprobado"
                               ? "bg-red-100 text-red-800"
                               : "bg-gray-100 text-gray-800"
                         }`}
                       >
-                        {docente.cursos.didu}
+                        {user.cursos.didu}
                       </span>
                     </TableCell>
                     <TableCell className="border border-gray-200 text-center">
                       <span
                         className={`px-2 py-1 rounded text-xs font-medium ${
-                          docente.cursos.concursosInvestigacion === "Aprobado"
+                          user.cursos.concursosInvestigacion === "Aprobado"
                             ? "bg-green-100 text-green-800"
-                            : docente.cursos.concursosInvestigacion === "No Aprobado"
+                            : user.cursos.concursosInvestigacion === "No Aprobado"
                               ? "bg-red-100 text-red-800"
                               : "bg-gray-100 text-gray-800"
                         }`}
                       >
-                        {docente.cursos.concursosInvestigacion}
+                        {user.cursos.concursosInvestigacion}
                       </span>
                     </TableCell>
 
@@ -990,40 +990,40 @@ export default function GestionDocente() {
                     <TableCell className="border border-gray-200 text-center">
                       <span
                         className={`px-2 py-1 rounded text-xs font-medium ${
-                          docente.cursos.aS === "Aprobado"
+                          user.cursos.aS === "Aprobado"
                             ? "bg-green-100 text-green-800"
-                            : docente.cursos.aS === "No Aprobado"
+                            : user.cursos.aS === "No Aprobado"
                               ? "bg-red-100 text-red-800"
                               : "bg-gray-100 text-gray-800"
                         }`}
                       >
-                        {docente.cursos.aS}
+                        {user.cursos.aS}
                       </span>
                     </TableCell>
                     <TableCell className="border border-gray-200 text-center">
                       <span
                         className={`px-2 py-1 rounded text-xs font-medium ${
-                          docente.cursos.stem === "Aprobado"
+                          user.cursos.stem === "Aprobado"
                             ? "bg-green-100 text-green-800"
-                            : docente.cursos.stem === "No Aprobado"
+                            : user.cursos.stem === "No Aprobado"
                               ? "bg-red-100 text-red-800"
                               : "bg-gray-100 text-gray-800"
                         }`}
                       >
-                        {docente.cursos.stem}
+                        {user.cursos.stem}
                       </span>
                     </TableCell>
                     <TableCell className="border border-gray-200 text-center">
                       <span
                         className={`px-2 py-1 rounded text-xs font-medium ${
-                          docente.cursos.coil === "Aprobado"
+                          user.cursos.coil === "Aprobado"
                             ? "bg-green-100 text-green-800"
-                            : docente.cursos.coil === "No Aprobado"
+                            : user.cursos.coil === "No Aprobado"
                               ? "bg-red-100 text-red-800"
                               : "bg-gray-100 text-gray-800"
                         }`}
                       >
-                        {docente.cursos.coil}
+                        {user.cursos.coil}
                       </span>
                     </TableCell>
 
@@ -1031,36 +1031,36 @@ export default function GestionDocente() {
                     <TableCell className="border border-gray-200 text-center">
                       <span
                         className={`px-2 py-1 rounded text-xs font-medium ${
-                          docente.cursos.didactica === "Aprobado"
+                          user.cursos.didactica === "Aprobado"
                             ? "bg-green-100 text-green-800"
-                            : docente.cursos.didactica === "No Aprobado"
+                            : user.cursos.didactica === "No Aprobado"
                               ? "bg-red-100 text-red-800"
                               : "bg-gray-100 text-gray-800"
                         }`}
                       >
-                        {docente.cursos.didactica}
+                        {user.cursos.didactica}
                       </span>
                     </TableCell>
 
                     <TableCell className="border border-gray-200 text-center">
                       {(() => {
                         // Verificar nivel Inicial (al menos un curso aprobado en cada categoría)
-                        const tieneNivelInicial = docente.cursos.modeloEducativo === "Aprobado"
+                        const tieneNivelInicial = user.cursos.modeloEducativo === "Aprobado"
 
                         // Verificar nivel Intermedio (al menos un curso aprobado en cada categoría)
                         const tieneAmbientesPropicios =
-                          docente.cursos.perspectivaGenero === "Aprobado" ||
-                          docente.cursos.neurodiversidadInclusion === "Aprobado"
+                          user.cursos.perspectivaGenero === "Aprobado" ||
+                          user.cursos.neurodiversidadInclusion === "Aprobado"
 
                         const tieneEnsenanzaAula =
-                          docente.cursos.metodologiasActivas === "Aprobado" || docente.cursos.evaluacion === "Aprobado"
+                          user.cursos.metodologiasActivas === "Aprobado" || user.cursos.evaluacion === "Aprobado"
 
-                        const tienePlanificacion = docente.cursos.planificacionEnsenanza === "Aprobado"
+                        const tienePlanificacion = user.cursos.planificacionEnsenanza === "Aprobado"
 
                         const tieneReflexion =
-                          docente.cursos.dedu === "Aprobado" ||
-                          docente.cursos.didu === "Aprobado" ||
-                          docente.cursos.concursosInvestigacion === "Aprobado"
+                          user.cursos.dedu === "Aprobado" ||
+                          user.cursos.didu === "Aprobado" ||
+                          user.cursos.concursosInvestigacion === "Aprobado"
 
                         const tieneNivelIntermedio =
                           tieneNivelInicial &&
@@ -1071,11 +1071,11 @@ export default function GestionDocente() {
 
                         // Verificar nivel Avanzado (al menos un curso aprobado en cada categoría)
                         const tieneMetodologiasVinculadas =
-                          docente.cursos.aS === "Aprobado" ||
-                          docente.cursos.stem === "Aprobado" ||
-                          docente.cursos.coil === "Aprobado"
+                          user.cursos.aS === "Aprobado" ||
+                          user.cursos.stem === "Aprobado" ||
+                          user.cursos.coil === "Aprobado"
 
-                        const tieneDidactica = docente.cursos.didactica === "Aprobado"
+                        const tieneDidactica = user.cursos.didactica === "Aprobado"
 
                         const tieneNivelAvanzado = tieneNivelIntermedio && tieneMetodologiasVinculadas && tieneDidactica
 
@@ -1099,10 +1099,10 @@ export default function GestionDocente() {
                     </TableCell>
 
                     <TableCell className="border border-gray-200 text-right">
-                      <Button variant="ghost" size="sm" onClick={() => handleEditarDocente(docente)}>
+                      <Button variant="ghost" size="sm" onClick={() => handleEditarUser(user)}>
                         <Edit className="h-4 w-4" />
                       </Button>
-                      <Button variant="ghost" size="sm" onClick={() => handleEliminarDialogo(docente)}>
+                      <Button variant="ghost" size="sm" onClick={() => handleEliminarDialogo(user)}>
                         <Trash2 className="h-4 w-4 text-red-500" />
                       </Button>
                     </TableCell>
@@ -1111,7 +1111,7 @@ export default function GestionDocente() {
               ) : (
                 <TableRow>
                   <TableCell colSpan={21} className="text-center py-4 border border-gray-200">
-                    No se encontraron docentes con los filtros aplicados
+                    No se encontraron users con los filtros aplicados
                   </TableCell>
                 </TableRow>
               )}
@@ -1156,16 +1156,16 @@ export default function GestionDocente() {
 
                     switch (columnaFiltroActiva) {
                       case "nombre":
-                        opciones = Array.from(new Set(docentes.map((d) => `${d.nombre} ${d.apellido}`)))
+                        opciones = Array.from(new Set(users.map((d) => `${d.nombre} ${d.apellido}`)))
                         break
                       case "rut":
-                        opciones = Array.from(new Set(docentes.map((d) => d.rut)))
+                        opciones = Array.from(new Set(users.map((d) => d.rut)))
                         break
                       case "email":
-                        opciones = Array.from(new Set(docentes.map((d) => d.email)))
+                        opciones = Array.from(new Set(users.map((d) => d.email)))
                         break
                       case "departamento":
-                        opciones = Array.from(new Set(docentes.map((d) => d.departamento)))
+                        opciones = Array.from(new Set(users.map((d) => d.departamento)))
                         break
                       case "estado":
                         opciones = ["Activo", "Inactivo"]
@@ -1242,15 +1242,15 @@ export default function GestionDocente() {
         </div>
       </div>
 
-      {/* Diálogo para crear/editar docente */}
+      {/* Diálogo para crear/editar user */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="sm:max-w-4xl">
           <DialogHeader>
-            <DialogTitle>{docenteActual ? "Editar Docente" : "Nuevo Docente"}</DialogTitle>
+            <DialogTitle>{userActual ? "Editar User" : "Nuevo User"}</DialogTitle>
             <DialogDescription>
-              {docenteActual
-                ? "Modifica los datos del docente seleccionado."
-                : "Completa el formulario para agregar un nuevo docente."}
+              {userActual
+                ? "Modifica los datos del user seleccionado."
+                : "Completa el formulario para agregar un nuevo user."}
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4 max-h-[70vh] overflow-y-auto">
@@ -1687,8 +1687,8 @@ export default function GestionDocente() {
           <DialogHeader>
             <DialogTitle>Confirmar eliminación</DialogTitle>
             <DialogDescription>
-              ¿Estás seguro de que deseas eliminar al docente{" "}
-              {docenteActual ? `${docenteActual.nombre} ${docenteActual.apellido}` : ""}? Esta acción no se puede
+              ¿Estás seguro de que deseas eliminar al user{" "}
+              {userActual ? `${userActual.nombre} ${userActual.apellido}` : ""}? Esta acción no se puede
               deshacer.
             </DialogDescription>
           </DialogHeader>
@@ -1696,7 +1696,7 @@ export default function GestionDocente() {
             <Button variant="outline" onClick={() => setIsDeleteDialogOpen(false)}>
               Cancelar
             </Button>
-            <Button variant="destructive" onClick={handleEliminarDocente}>
+            <Button variant="destructive" onClick={handleEliminarUser}>
               Eliminar
             </Button>
           </DialogFooter>

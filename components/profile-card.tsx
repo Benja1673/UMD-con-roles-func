@@ -438,7 +438,7 @@ export default function ProfileCard() {
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={() => handleEditarEstado(getCursoByNombre("Modelo Educativo"))}
+                    onClick={() => handleEditarEstado(getCursoByNombre("Modelo Educativo UTEM")!)}
                   >
                     <Edit className="h-4 w-4" />
                   </Button>
